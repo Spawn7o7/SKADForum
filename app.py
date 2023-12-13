@@ -32,7 +32,6 @@ from flask_admin import Admin, BaseView, expose
 from flask_admin.contrib.sqla import ModelView
 from passlib.hash import sha256_crypt
 from datetime import datetime
-from flask_migrate import Migrate
 #from flask_admin.form.widgets import Select2Widget
 
 app = Flask(__name__)
