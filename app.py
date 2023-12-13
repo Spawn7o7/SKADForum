@@ -39,7 +39,6 @@ CORS(app)
 admin = Admin(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///databaseInfo.db' # <---you can change this to a different URI (might need to create more)
 db = SQLAlchemy(app)  # db is initialized after creating the app
-migrate = Migrate(app, db)
 app.config['SECRET_KEY'] = 'fortnitebattlepass'
 
 login_manager = LoginManager()
