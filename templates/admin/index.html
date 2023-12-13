@@ -1,0 +1,55 @@
+{% extends 'admin/master.html' %}
+{% block body %}
+<style>
+    body {
+        font-size: 22px; 
+    }
+
+    a {
+        color: white;
+        font-weight: bolder;
+        text-decoration: none;
+    }
+
+    .topnav {
+        max-height: 80px;
+        background-color: #b32a2a;
+        padding: 10px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        font-size: 20px;
+        justify-content: space-between;
+    }
+
+    .cen-text {
+        margin-top: 5px;
+    }
+
+    p {
+        font-size: inherit; 
+        line-height: 1; 
+    }
+
+    .bullet-points li {
+        list-style-type: disc; 
+        margin-left: 20px; 
+    }
+</style>
+
+<header>
+    <div class="topnav">
+        <a class="cen-text" href="{{ url_for('home') }}">SKAD Forum</a>
+    </div>
+
+    <br>
+    <p>Welcome Admin, to the Flask Admin panel. Here you can manage content on the SKAD web forum by reviewing, editing, and deleting content such as:</p>
+    <ul class="bullet-points">
+        <li>User profiles</li>
+        <li>User posts</li>
+        <li>User comments</li>
+    </ul>
+
+</header>
+
+{% endblock %}

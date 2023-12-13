@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="ie-edge" />
+    <link rel="stylesheet" href="static/css/createpost.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+    <script src="{{url_for('.static', filename='js/script.js')}}"></script>
+    <title>skad Create a new post</title>
+  </head>
+  <body>
+    <header>
+      <div class="topnav">
+        <a class="cen-text" href="{{ url_for('home') }}">SKAD Forum</a>
+        <div class="search-container">
+          <!--<input type="text" placeholder="Search.." name="search" />
+          <button type="submit"><i class="material-icons">search</i></button>-->
+          <form action="{{ url_for('search_results') }}" method="GET">
+            <input type="text" placeholder="Search.." name="search_query" />
+            <button type="submit"><i class="material-icons">search</i></button>
+          </form>
+        </div>
+        <div class="dropdown">
+          <button onclick="myFunction()" class="dropbtn">
+            <i class="material-icons">mood</i>
+          </button>
+          <div class="dropdown-content">
+            <a class="signout" href="{{ url_for('profile') }}">My Profile</a>
+            <a class="signout" href="{{ url_for('logout') }}"
+              >Log Out<i
+                class="material-icons"
+                style="font-size: 18px; margin-top: 5px; margin-left: 10px"
+                >logout</i
+              ></a>
+          </div>
+        </div>
+      </div>
+      <br>
+    </header>
+
+    <br>
+    <br>
+    <h1>Create a new post</h1>
+
+    <form action="{{ url_for('createpost') }}" method="POST">
+      <div class="topic-box">
+        <select id="topic" name="topic" class="topic" required>
+          <option value="">Choose a Topic</option>
+          <option value="Business">Business</option>
+          <option value="Education">Education</option>
+          <option value="Health">Health</option>
+          <option value="Sports">Sports</option>
+          <option value="Technology">Technology</option>
+        </select>
+      </div>
+
+      <div class="container">
+        <div class="post-box">
+          <div class="title-container">
+            <label for="title" class="prompt">Title :</label>
+            <input type="text" id="title" name="title" required />
+          </div>
+
+          <div class="textcontent-container">
+            <textarea
+              id="content"
+              name="content"
+              placeholder="Enter your thoughts here..."
+            ></textarea>
+          </div>
+
+          <div>
+            <button type="submit" class="createBtn">Create Post</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </body>
+</html>

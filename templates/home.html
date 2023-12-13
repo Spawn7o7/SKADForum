@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container">
+        <div class="subforum">
+            <div class="button-row">
+                <form method="get" action="{{ url_for('home_sort') }}" id="filterForm">
+                    <select name="sorting_criterion" id="sorting_criterion" onchange="document.getElementById('filterForm').submit()">
+                        <option value="everything">Filter by:</option>
+                        <option value="alphabetical">Filter by: Alphabetical</option>
+                        <option value="total_posts">Filter by: Total Posts</option>
+                        <option value="date_posted">Filter by: Date Posted</option>
+                    </select>
+                </form>
+                <div class="create-button">
+                    <a class="create-post" href="{{ url_for('createpost') }}">Create a Post</a>
+                </div>
+            </div>
+            <div class="subforum-title">
+                <h1>General Topics</h1>
+            </div>
+
+            {% for post in posts %}
+                <div class="subforum-row">
+                    <div class="subforum-icon subforum-column center">
+                        {% set topic_icons = {
+                            'Business': 'trending_up',
+                            'Education': 'school',
+                            'Health': 'health_and_safety',
+                            'Sports': 'sports_baseball',
+                            'Technology': 'devices'
+                        } %}
+                        <i class="material-icons">{{ topic_icons.get(post.topic, 'mood') }}</i>
+                    </div>
+                    <div class="subforum-description subforum-column">
+                        <h1><a href="{{ url_for('topic_details', topic_name=post.topic) }}">{{ post.topic }}</a></h1>
+                        <p>The {{ post.topic }} forum is for any topics relating to any form of {{ post.topic }} discussions in real life or elsewhere</p>
+                    </div>
+                    <div class="subforum-stats subforum-column center">
+                        <span><!--{{ post.replies }} Replies | -->{{ post.topic_count }} Posts</span>
+                    </div>
+                    <div class="subforum-info subforum-column">
+                        <b><a href="#">Last Post</a></b> by <a href="#">{{ post.author.username }}</a>
+                        <br>
+                        on <small>{{ post.timestamp.strftime('%d %b %Y') }}</small>
+                    </div>
+                    <hr class="subforum-divider">
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+{% endblock content %}

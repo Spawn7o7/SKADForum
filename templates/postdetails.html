@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="container">
+        <!--Forum Nav-->
+        <div class="navigate">
+            <span><a href="{{ url_for('home') }}">Forums</a> >> <a href="{{ url_for('topic_details', topic_name=post.topic) }}">{{ post.topic }}</a> >> <a href="{{ url_for('postdetails', post_id=post.id) }}">{{ post.title }}</a></span>
+        </div>
+
+        <div class="topic-container">
+            <div class="head">
+                <div class="posters">Original Poster:</div>
+                <div class="content">Topic: {{ post.title }} ({{ post.view_count }} views)</div>
+            </div>
+
+            <div class="body">
+                <div class="posters">
+                    <div class="username"><b>{{ post.author.username }}</b></div>
+                    <img src="https://cdn.pixabay.com/photo/2018/11/13/21/43/avatar-3814049_1280.png" alt="">
+                    <!--Show how many posts the user has made-->
+                    <div class="spacing">Posts: <u>{{ post.author.posts|length }}</u></div>
+                    <br>
+                </div>
+
+                <div class="content">
+                    {{ post.content }}
+                    <br>
+                </div>
+            </div>
+        </div>
+
+        <div class="comment">
+            <button onclick = "showComment()" ondblclick="hideComment()">Comment</button>
+            <br>
+        </div>
+
+        <!--Comment Input Area-->
+        <div class="commentarea" id="commentarea">
+            <form action="{{ url_for('add_comment', post_id=post.id) }}" method="post">
+                <textarea name="comment_content" id="comment_content" placeholder="Comment on the post..."></textarea>
+                <input type="submit" value="Submit Comment">
+            </form>
+            <br>
+        </div>
+
+        <!--Comment Replies-->
+        <div class="comments-container">
+            <div class="head">
+                <div class="posters">Commentor:</div>
+                <div class="content">Comment</div>
+            </div>
+
+            {% if comments %}
+            <!-- Looping through comments associated with the post the user put -->
+            {% for comment in comments %}
+            <div class="body">
+                <div class="posters">
+                    <div class="username"><b>{{ comment.user.username }}</b></div>
+                    <img src="https://cdn.pixabay.com/photo/2018/11/13/21/43/avatar-3814049_1280.png" alt="">
+                    <p>Replied: {{ comment.timestamp.strftime('%B %d, %Y %H:%M:%S') }}</p>
+                </div>
+                <div class="content">
+                    {{ comment.content }}
+                    <br>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+                <div class="no-comments">
+                    <p>No comments yet.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        fetch(`/api/comments/${post_id}`)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data); // Make sure you're receiving the data
+        })
+        .catch(error => console.error('Error fetching comments:', error));
+    </script>
+
+
+{% endblock content %}

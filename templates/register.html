@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    ead>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="ie-edge" />
+    <link rel="stylesheet" href="static/css/register.css" />
+    <title>skad Register</title>
+  </head>
+  <body>
+    <div class="topnav">
+      <p class="greet">SKAD Forum</p>
+    </div>
+
+    <div class="form">
+      <p class="prompt">Create your Account</p>
+      <br />
+      <form method="Post" action="">
+        {{ form.firstname }}<br />
+        {{ form.lastname }}<br />
+        {{ form.hidden_tag() }} {{ form.username }}<br />
+        {{ form.password }}<br />
+        <input type="submit" class="submit-button" />
+      </form>
+      <a class="ask" href="{{ url_for('login')}}">Already have an account yet? Click here.</a>
+    </div>
+  </body>
+</html>

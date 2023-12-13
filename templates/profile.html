@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+    <br>
+    <br>
+    <br>
+    <h2>Your Profile</h2>
+    <p>
+        User Details<br>
+        Username: @{{ current_user.username }}<br>
+        Full name: {{ current_user.firstname }} {{ current_user.lastname }}<br>
+        Profile pic: <br>
+        <img src="https://cdn.pixabay.com/photo/2018/11/13/21/43/avatar-3814049_1280.png" alt="" width="90" height="90">
+    </p>
+    <br>
+    <div class="sidespacing">
+        <div class="create-button">
+            <a class="create-post" href="{{ url_for('createpost') }}">Create a Post</a>
+        </div>
+    </div>
+{% endblock content %}

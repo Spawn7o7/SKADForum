@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search Results</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/results.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+  </head>
+  <body>
+    <header>
+      <div class="topnav">
+        <a class="cen-text" href="{{ url_for('home') }}">SKAD Forum</a>
+        <div class="search-container">
+          <!--
+          <input type="text" placeholder="Search.." name="search" />
+          <button type="submit"><i class="material-icons">search</i></button>-->
+          <form action="{{ url_for('search_results') }}" method="GET">
+            <input type="text" placeholder="Search.." name="search_query" />
+            <button type="submit" class="search-btn"><i class="material-icons">search</i></button>
+          </form>
+        </div>
+        <div class="dropdown">
+          <button onclick="myFunction()" class="dropbtn">
+            <i class="material-icons">mood</i>
+          </button>
+          <div class="dropdown-content">
+            <a class="signout" href="{{ url_for('profile') }}">My Profile</a>
+            <a class="signout" href="{{ url_for('logout') }}"
+              >Log Out<i
+                class="material-icons"
+                style="font-size: 18px; margin-top: 5px; margin-left: 10px"
+                >logout</i
+              ></a
+            >
+          </div>
+        </div>
+      </div>
+      <br>
+    </header>
+
+    <main>
+      <br>
+      <br>
+      <h1>Search Results</h1>
+
+      <form action="{{ url_for('search_results') }}" method="get" class="filter-container">
+        <input type="hidden" name="search_query" placeholder="Search.." value="{{ request.args.get('search_query') }}">
+        <select name="topic">
+            <option value="">All Topics</option>
+            {% for topic in topics %}
+                <option value="{{ topic }}" {% if topic == current_topic %}selected{% endif %}>{{ topic }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="filter-btn">Filter</button>
+    </form>
+
+      <section class="search-results">
+        {% if results|length > 0 %}
+        <ul class="results-list">
+          {% for post in results %}
+          <li class="result-item">
+            <p>{{ post.topic }}</p>
+            <!--<h2>{{ post.title }}</h2>-->
+            <h3><a href="{{ url_for('postdetails', post_id=post.id) }}" style="text-decoration: none; color: inherit;">{{ post.title }}</a></h3>
+            <p>Posted by: {{ post.author.username }} on {{ post.timestamp.strftime('%B %d, %Y') }}</p>
+            <!-- Add comment and upvote/downvote -->
+            <p>Comments: {{ post.reply_count }}</p>
+
+          </li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <p class="notfound-prompt">
+          No results found for "{{ request.args.get('search_query') }}". Please
+          try a different search.
+        </p>
+        {% endif %}
+      </section>
+    </main>
+
+  </body>
+</html>

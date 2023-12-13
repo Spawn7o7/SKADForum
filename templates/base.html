@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="ie-edge" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="{{url_for('.static', filename='js/script.js')}}"></script>
+    <title>skad</title>
+  </head>
+  <body>
+    <header>
+        <div class="topnav">
+            <a class="cen-text" href="{{ url_for('home') }}">SKAD Forum</a>
+            <div class="search-container">
+                <!--<input type="text" placeholder="Search.." name="search" />
+                <button type="submit"><i class="material-icons">search</i></button>-->
+                <form action="{{ url_for('search_results') }}" method="GET">
+                  <input type="text" placeholder="Search.." name="search_query" />
+                  <button type="submit"><i class="material-icons">search</i></button>
+                </form>
+            </div>
+            <div class="dropdown">
+                <button onclick="myFunction()" class="dropbtn"><i class="material-icons">mood</i></button>
+                <div class="dropdown-content">
+                    <a class="signout" href="{{ url_for('profile') }}">My Profile</a>
+                    <a class="signout" href="{{ url_for('logout') }}">Log Out<i class="material-icons" style='font-size:18px;margin-top:5px;margin-left:10px'>logout</i></a>                    
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <br>
+    {% block content %}
+    {% endblock content %}
+    
+
+  </body>
+</html>

@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+
+        <!--Forum Nav-->
+        {% for post in posts %}  
+        {% if loop.first %}
+        <div class="navigate">
+            <span><a href="{{ url_for('home') }}">Forums</a> >> <a href="{{ url_for('topic_details', topic_name=post.topic) }}">{{post.topic}}</a></span>
+        </div> 
+        
+        <div class="button-row">
+            <form method="get" action="{{ url_for('posts_sort', topic_name=topic_name) }}" id="filterForm">
+                <select name="sorting_criterion" id="sorting_criterion" onchange="document.getElementById('filterForm').submit()">
+                    <option value="everything">Filter by:</option>
+                    <option value="alphabetical">Filter by: Alphabetical</option>
+                    <option value="views">Filter by: Views</option>
+                    <option value="date_posted">Filter by: Date Posted</option>
+                </select>
+            </form>
+            <div class="create-button">
+                <a class="create-post" href="{{ url_for('createpost') }}">Create a Post</a>
+            </div>
+        </div>
+
+        {% endif %}
+
+        <div class="posts-table">
+            <div class="table-head">
+                <div class="status">Status</div>
+                <div class="topics">Topics</div>
+                <div class="replies">Replies/Views</div>
+                <div class="last-reply">Last Reply</div>
+            </div>
+
+            
+            <div class="table-row">
+                <div class="status center">
+                    {% if post.view_count == 0 %}
+                        <i class="material-icons">mood_bad</i>
+                    {% elif post.view_count < 10 %}
+                        <i class="material-icons">sentiment_neutral</i>
+                    {% elif post.view_count < 20 %}
+                        <i class="material-icons">sentiment_very_satisfied</i>
+                    {% else %}
+                        <i class="material-icons">local_fire_department</i>
+                    {% endif %}
+                </div>
+                <div class="topics"><a href="{{ url_for('postdetails', post_id=post.id) }}">{{ post.title }}</a>
+                    <br>
+                    <span>Started by <b><a href="#">{{ post.author.username }}</a></b>.</span>
+                </div>
+                <div class="replies">
+                    {{ post.reply_count }} replies <br> {{ post.view_count }} views
+                </div>
+                <div class="last-reply">
+                    {% if post.comments.count() > 0 %}
+                        {% set last_comment = post.comments.order_by(Comment.timestamp.desc()).first() %}
+                        {{ last_comment.timestamp.strftime("%b %d, %Y") }}
+                        <br>
+                        By <b><a href="#">{{ last_comment.user.username }}</a></b>
+                    {% else %}
+                        None
+                    {% endif %}
+                    <br>
+                </div>
+            </div>
+            <br>
+            
+            {% endfor %}
+        </div>
+
+    <!--Page nums-->
+    <div class="pagenums">
+        Pages: <a href="#">1</a><a href="#">2</a><a href="#">3</a>
+    </div>
+
+    <!--Status Note-->
+    <div class="note center">
+        <span>
+            <i class="material-icons">mood_bad</i>&nbsp; 0 Engagement Topic <br>
+        </span>
+        <span>
+            <i class="material-icons">sentiment_neutral</i>&nbsp; Low Engagement Topic <br>
+        </span>
+        <span>
+            <i class="material-icons">sentiment_very_satisfied</i>&nbsp; Popular Topic <br>
+        </span>
+        <span>
+            <i class="material-icons">local_fire_department</i>&nbsp; High Engagement Topic <br>
+        </span>
+    </div>
+{% endblock content %}
